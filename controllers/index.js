@@ -1,1 +1,1 @@
-exports.user = require('./user');
+exports.user = require('./user_controller');

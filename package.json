@@ -1,0 +1,19 @@
+{
+  "name": "bff_example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=development node_modules/.bin/nodemon index.js"
+  },
+  "dependencies": {
+    "koa": "^2.6.2",
+    "koa-router": "^7.4.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
