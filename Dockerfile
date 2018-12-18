@@ -9,7 +9,7 @@ ENV WORK_ROOT /www/koa_bff
 RUN mkdir -p $WORK_ROOT
 WORKDIR $WORK_ROOT
 
-RUN npm i pm2 -g
+RUN npm install pm2 -g
 
 ADD package.json /tmp/package.json
 RUN cd /tmp && npm install
