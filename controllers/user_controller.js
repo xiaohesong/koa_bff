@@ -2,7 +2,8 @@ exports.userById = userById;
 exports.getUsers = getUsers;
 
 function userById(ctx) {
-  ctx.body = {id: ctx.params.id}
+  const {TEST} = process.env
+  ctx.body = {id: ctx.params.id, test: TEST}
 }
 
 function getUsers(ctx) {

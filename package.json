@@ -5,11 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "NODE_ENV=development node_modules/.bin/nodemon index.js"
+    "dev": "NODE_ENV=development node_modules/.bin/nodemon index.js",
+    "pro": "pm2 start pm2.config.js --env production",
+    "staging": "pm2 start pm2.config.js --env staging"
   },
   "dependencies": {
+    "dotenv": "^6.2.0",
+    "dotenv-expand": "^4.2.0",
     "koa": "^2.6.2",
-    "koa-router": "^7.4.0"
+    "koa-router": "^7.4.0",
+    "pm2": "^3.2.3"
   },
   "author": "",
   "license": "ISC",
