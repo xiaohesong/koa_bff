@@ -1,0 +1,1 @@
+exports.errorMiddleware = require('./ErrorMiddleware').errorMiddleware;
