@@ -1,6 +1,8 @@
 # FROM daocloud.io/library/node:8.12.0
 FROM keymetrics/pm2:latest-alpine
 
+RUN npm install pm2 -g
+
 ARG app_env
 ENV APP_ENV $app_env
 
@@ -8,8 +10,6 @@ ENV APP_ENV $app_env
 ENV WORK_ROOT /www/koa_bff
 RUN mkdir -p $WORK_ROOT
 WORKDIR $WORK_ROOT
-
-RUN npm install pm2 -g
 
 ADD package.json /tmp/package.json
 RUN cd /tmp && npm install
