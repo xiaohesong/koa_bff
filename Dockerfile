@@ -1,6 +1,7 @@
 # FROM daocloud.io/library/node:8.12.0
 FROM keymetrics/pm2:latest-alpine
 
+RUN npm config set unsafe-perm true
 RUN npm install pm2 -g
 
 ARG app_env
