@@ -1,4 +1,5 @@
-FROM daocloud.io/library/node:8.12.0
+# FROM daocloud.io/library/node:8.12.0
+FROM keymetrics/pm2:latest-alpine
 
 ARG app_env
 ENV APP_ENV $app_env
@@ -19,4 +20,5 @@ COPY example.env.${APP_ENV} .env.${APP_ENV}
 # Bundle app source
 COPY . .
 
-CMD pm2 start pm2.config.js --env $APP_ENV
+# CMD pm2 start pm2.config.js
+CMD [ "pm2-runtime", "start", "pm2.config.js", "--env", "staging" ]
