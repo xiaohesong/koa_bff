@@ -20,5 +20,5 @@ COPY example.env.${APP_ENV} .env.${APP_ENV}
 # Bundle app source
 COPY . .
 
-# CMD pm2 start pm2.config.js
-CMD [ "pm2-runtime", "start", "pm2.config.js", "--env", "staging" ]
+CMD pm2 start pm2.config.js --env $APP_ENV
+# CMD [ "pm2-runtime", "start", "pm2.config.js", "--env", "staging" ]
