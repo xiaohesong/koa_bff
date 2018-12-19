@@ -37,8 +37,8 @@ EXPOSE $SERVER_PORT
 #8 -- server 502
 # CMD pm2 start pm2.config.js --no-daemon --env $APP_ENV
 
-#9
-CMD ["pm2", "start", "pm2.config.js", "--no-daemon"]
+#9 -- server 502 --dev
+# CMD ["pm2", "start", "pm2.config.js", "--no-daemon"]
 
 # CMD [ "pm2-runtime", "start", "pm2.config.js", "--env", "staging" ]
 # CMD npm run $APP_ENV
@@ -47,4 +47,4 @@ CMD ["pm2", "start", "pm2.config.js", "--no-daemon"]
 # CMD ["pm2-runtime", "pm2.config.js"]
 
 #4
-# CMD pm2-runtime pm2.config.js --env $APP_ENV
+CMD pm2-runtime pm2.config.js --env $APP_ENV
