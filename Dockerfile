@@ -28,8 +28,12 @@ EXPOSE $SERVER_PORT
 #5 -- server 503
 # CMD pm2 start pm2.config.js --env $APP_ENV
 
-# 6
-CMD pm2 pm2.config.js --env $APP_ENV
+# 6 -- server 503
+# CMD pm2 pm2.config.js --env $APP_ENV
+
+#7 
+CMD pm2-runtime start pm2.config.js --env $APP_ENV
+
 # CMD [ "pm2-runtime", "start", "pm2.config.js", "--env", "staging" ]
 # CMD npm run $APP_ENV
 
