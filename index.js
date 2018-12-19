@@ -1,25 +1,27 @@
 const Koa = require('koa');
 const Router = require('koa-router');
-const config = require('./config');
-const routes = require('./routes');
 const getClientEnvironment = require('./config/env')
 getClientEnvironment(process.env.NODE_ENV)
-console.log('process.env.NODE_ENV', process.env.NODE_ENV)
+
+const middlewares = require('./middlewares')
+const config = require('./config');
+const routes = require('./routes');
+
 const app = new Koa();
 const router = new Router();
 
-require('dotenv').config();
-console.log('require(dotenv).config();', require('dotenv').config())
-router.get('/', home)
+app.use(middlewares.errorMiddleware);
 
+router.get('/', home)
 
 routes.forEach(item => {
   router[item.method](item.path, item.cb)
 })
 
 function home(ctx){
-  console.log('ctx is', ctx, 'params is', ctx.params, 'query is', ctx.query)
-  ctx.body = {a: 'aaa', name: 'home', text: '你好，我是首页'}
+  const NODE_ENV = process.env.NODE_ENV
+  console.log('ctx is', ctx.body, 'params is', ctx.params, 'query is', ctx.query)
+  ctx.body = {a: 'aaa', name: 'home', text: '你好，我是首页', env: `env-${NODE_ENV}`}
 }
 
 app.use(router.routes());

@@ -10,3 +10,7 @@ git clone git@github.com:xiaohesong/koa_bff.git
 cd koa_bff
 npm i && npm run dev
 ```
+
+- 自定端口
+
+  你可以根据环境分配端口号。只需要加入`PORT`就好,例如: `PORT=1919`。

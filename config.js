@@ -1,4 +1,6 @@
+const PORT = process.env.PORT || '8080'
+
 exports = module.exports = {
-  hostname: '0.0.0.0', //127.0.0.1 502
-  port: '8082'
+  hostname: '0.0.0.0',
+  port: PORT
 };

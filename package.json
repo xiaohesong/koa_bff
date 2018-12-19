@@ -10,6 +10,7 @@
     "staging": "pm2 start pm2.config.js --env staging"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "dotenv": "^6.2.0",
     "dotenv-expand": "^4.2.0",
     "koa": "^2.6.2",
