@@ -24,7 +24,9 @@ COPY . .
 ENV SERVER_PORT 80
 
 EXPOSE $SERVER_PORT
-# CMD pm2 start pm2.config.js --env $APP_ENV
+
+#5
+CMD pm2 start pm2.config.js --env $APP_ENV
 # CMD [ "pm2-runtime", "start", "pm2.config.js", "--env", "staging" ]
 # CMD npm run $APP_ENV
 
@@ -32,4 +34,4 @@ EXPOSE $SERVER_PORT
 # CMD ["pm2-runtime", "pm2.config.js"]
 
 #4
-CMD pm2-runtime pm2.config.js --env $APP_ENV
+# CMD pm2-runtime pm2.config.js --env $APP_ENV
