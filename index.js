@@ -19,8 +19,9 @@ routes.forEach(item => {
 })
 
 function home(ctx){
+  const NODE_ENV = process.env.NODE_ENV
   console.log('ctx is', ctx.body, 'params is', ctx.params, 'query is', ctx.query)
-  ctx.body = {a: 'aaa', name: 'home', text: '你好，我是首页'}
+  ctx.body = {a: 'aaa', name: 'home', text: '你好，我是首页', env: `env-${NODE_ENV}`}
 }
 
 app.use(router.routes());

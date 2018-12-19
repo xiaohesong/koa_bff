@@ -25,26 +25,8 @@ ENV SERVER_PORT 80
 
 EXPOSE $SERVER_PORT
 
-#5 -- server 503
-# CMD pm2 start pm2.config.js --env $APP_ENV
-
-# 6 -- server 503
-# CMD pm2 pm2.config.js --env $APP_ENV
-
-#7  -- server 502
-# CMD pm2-runtime start pm2.config.js --env $APP_ENV
-
 #8 -- server 502
-# CMD pm2 start pm2.config.js --no-daemon --env $APP_ENV
-
-#9 -- server 502 --dev
-# CMD ["pm2", "start", "pm2.config.js", "--no-daemon"]
-
-# CMD [ "pm2-runtime", "start", "pm2.config.js", "--env", "staging" ]
-# CMD npm run $APP_ENV
-
-#3 -- server 502
-# CMD ["pm2-runtime", "pm2.config.js"]
+CMD pm2 start pm2.config.js --no-daemon --env $APP_ENV
 
 #4
-CMD pm2-runtime pm2.config.js --env $APP_ENV
+# CMD pm2-runtime pm2.config.js --env $APP_ENV
