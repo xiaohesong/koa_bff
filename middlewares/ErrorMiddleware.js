@@ -9,7 +9,7 @@ async function errorMiddleware(ctx, next){
 } 
 
 function handleError(error, ctx) {
-  console.log('出现异常，开始捕获');
+  console.log('出现异常，开始捕获', error.status);
   
   // console.log('KOA_BFF error is', error.response)
   if (error.response) {

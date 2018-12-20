@@ -12,6 +12,7 @@ const routes = require('./routes');
 const app = new Koa();
 const router = new Router();
 
+// app.use(middlewares.skioHeader)
 app.use(middlewares.crossOrigin)
 app.use(middlewares.errorMiddleware);
 

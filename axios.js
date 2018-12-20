@@ -10,36 +10,36 @@ instance.interceptors.response.use(function (response) {
   return Promise.reject(error);
 });
 
-const get = (path, params = {}, info = {'skio-token': ''}) => {
+const get = (path, params = {}, token) => {
   const searchParams = Object.keys(params).map(key => {
     return params[key] !== '' ? encodeURIComponent(key) + '=' + encodeURIComponent(params[key]) : ''
   }).filter(item => item !== '').join('&')
   return instance.get(`${API_URL}/${path}?${searchParams}`, {
-      headers: {
-        'skio-token': info["skio-token"],
-      }
-    })
+    headers: {
+      'skio-token': token
+    }
+  })
     .then(response => response.data)
     .catch(function (error) {
-      return handleError(error)
+      handleError(error)
     });
 }
 exports.get = get
 
-const post = (path, params, info = {'skio-token': ''}) => {
+const post = (path, params, token = '') => {
   console.log("post form value is", params);
   let formData = new FormData();
 
   for (let filed in params) {
     formData.append(filed, params[filed]);
   }
-
+  
   return instance({
       method: 'post',
       url: `${API_URL}/${path}`,
       data: formData,
       headers: {
-        "skio-token": info["skio-token"],
+        "skio-token": 'token',
         'Content-Type': formData.getHeaders()['content-type']
       }
     })
