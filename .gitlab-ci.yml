@@ -20,7 +20,7 @@ stages:
   stage: dockerize
   before_script:
     - docker login -u $ALI_DOCKER_USERNAME -p $ALI_DOCKER_PASSWORD $PRIVATE_DOCKER_REGISTRY_URL
-    - docker build --build-arg app_env=staging --pull -t $CONTAINER_IMAGE .
+    - docker build --build-arg app_env=staging PM2_PUBLIC_KEY=o2h1ok1qaxqrnx3 PM2_SECRET_KEY=4auokv22l7i6d70 --pull -t $CONTAINER_IMAGE .
     - docker push $CONTAINER_IMAGE
   allow_failure: false
 

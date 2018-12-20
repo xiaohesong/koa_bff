@@ -7,6 +7,12 @@ RUN npm install pm2 -g
 ARG app_env
 ENV APP_ENV $app_env
 
+ARG PM2_PUBLIC_KEY
+ARg PM2_SECRET_KEY
+
+ENV PM2_PUBLIC_KEY $PM2_PUBLIC_KEY
+ENV PM2_SECRET_KEY $PM2_SECRET_KEY
+
 # Set workspace
 ENV WORK_ROOT /www/koa_bff
 RUN mkdir -p $WORK_ROOT
@@ -26,7 +32,7 @@ ENV SERVER_PORT 80
 EXPOSE $SERVER_PORT
 
 #8 -- server 502
-CMD pm2 start pm2.config.js --no-daemon --env $APP_ENV
+# CMD pm2 start pm2.config.js --no-daemon --env $APP_ENV
 
 #4
-# CMD pm2-runtime pm2.config.js --env $APP_ENV
+CMD pm2-runtime pm2.config.js --env $APP_ENV

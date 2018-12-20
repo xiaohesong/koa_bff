@@ -6,15 +6,18 @@ module.exports = {
     log_date_format: "YYYY-MM-DD HH:mm Z",
     env: {
       NODE_ENV: "development",
-      PORT: 8080
+      PORT: 8080,
+      name: 'koa_bff_development'
     },
     env_staging: {
       NODE_ENV: "staging",
-      PORT: 80
+      PORT: 80,
+      name: 'koa_bff_staging'
     },
     env_production: {
       NODE_ENV: "production",
-      PORT: 80
+      PORT: 80,
+      name: 'koa_bff_production'
     }
   }]
 }
