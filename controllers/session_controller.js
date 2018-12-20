@@ -1,6 +1,5 @@
 const {post, get} = require('../axios')
 async function login(ctx) {
-  // console.log('aiy', ctx.params, ctx.request.body)
   const loginer = await post('login', ctx.request.body)
   if(loginer.code !== 200){
     ctx.body = loginer

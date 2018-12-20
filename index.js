@@ -18,6 +18,7 @@ app.use(middlewares.errorMiddleware);
 
 app.use(bodyParser());
 
+app.use(middlewares.logMiddleware)
 router.get('/', home)
 
 routes.forEach(item => {
@@ -26,7 +27,7 @@ routes.forEach(item => {
 
 function home(ctx){
   const NODE_ENV = process.env.NODE_ENV
-  console.log('ctx is', ctx.body, 'params is', ctx.params, 'query is', ctx.query)
+  // console.log('Root path ctx is', ctx.body, 'params is', ctx.params, 'query is', ctx.query)
   ctx.body = {a: 'aaa', name: 'home', text: '你好，我是首页', env: `env-${NODE_ENV}`}
 }
 
