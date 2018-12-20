@@ -26,8 +26,6 @@ const get = (path, params = {}, info = {'skio-token': ''}) => {
 }
 exports.get = get
 
-var querystring = require('querystring');
-
 const post = (path, params, info = {'skio-token': ''}) => {
   console.log("post form value is", params);
   let formData = new FormData();
@@ -35,7 +33,7 @@ const post = (path, params, info = {'skio-token': ''}) => {
   for (let filed in params) {
     formData.append(filed, params[filed]);
   }
-  
+
   return instance({
       method: 'post',
       url: `${API_URL}/${path}`,
@@ -116,7 +114,6 @@ exports.exporter = exporter
 
 
 function handleError(error) {
-  // console.log('KOA_BFF error is', error.response)
   throw error
   if (error.response) {
     // console.log("Error Response", error.response);

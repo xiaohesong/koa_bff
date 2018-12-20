@@ -10,6 +10,6 @@ exports = module.exports = [{
   cb: user.getUsers
 },{
   method: 'post',
-  path: '/session/new',
+  path: '/login',
   cb: session.login
 }];

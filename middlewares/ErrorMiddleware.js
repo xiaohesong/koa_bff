@@ -1,3 +1,5 @@
+const ERROR_502 = 'Network Error'
+
 async function errorMiddleware(ctx, next){
   try {
     await next();
@@ -7,7 +9,7 @@ async function errorMiddleware(ctx, next){
 } 
 
 function handleError(error, ctx) {
-  console.log('哎呦 进来捕获异常了');
+  console.log('出现异常，开始捕获');
   
   // console.log('KOA_BFF error is', error.response)
   if (error.response) {
@@ -15,12 +17,13 @@ function handleError(error, ctx) {
     checkReturnStatus(error.response, ctx)
     // return error.response
   } else if (error.request) {
-    console.log('middleware request error')
+    console.log('middleware request error', error.message)
     // console.log("Request Error", error.request, error.message);
     if (error.message === ERROR_502) {
       // console.log(`服务器异常${error.message}`, 5)
       throw error.message
     }
+    throw error
   } else {
     console.log('Error', error.message);
     throw error
