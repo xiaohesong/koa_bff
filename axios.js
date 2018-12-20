@@ -1,5 +1,5 @@
 const axios = require('axios')
-
+const FormData = require('form-data');
 const API_URL = process.env.BFF_URL
 const ERROR_502 = 'Network Error'
 const instance = axios.create();
@@ -26,19 +26,23 @@ const get = (path, params = {}, info = {'skio-token': ''}) => {
 }
 exports.get = get
 
-const post = (path, params) => {
+var querystring = require('querystring');
+
+const post = (path, params, info = {'skio-token': ''}) => {
   console.log("post form value is", params);
   let formData = new FormData();
 
   for (let filed in params) {
     formData.append(filed, params[filed]);
   }
+  
   return instance({
       method: 'post',
       url: `${API_URL}/${path}`,
       data: formData,
       headers: {
-        "skio-token": localStorage.getItem("skioToken")
+        "skio-token": info["skio-token"],
+        'Content-Type': formData.getHeaders()['content-type']
       }
     })
     .then(response => response.data)
@@ -112,12 +116,17 @@ exports.exporter = exporter
 
 
 function handleError(error) {
+  // console.log('KOA_BFF error is', error.response)
+  throw error
   if (error.response) {
     // console.log("Error Response", error.response);
-    checkReturnStatus(error.response)
+    // checkReturnStatus(error.response)
+    throw error.response
     // return error.response
   } else if (error.request) {
-    console.log("Request Error", error.request, error.message);
+    console.log('KOA request error');
+    
+    // console.log("Request Error", error.request, error.message);
     if (error.message === ERROR_502) {
       // console.log(`服务器异常${error.message}`, 5)
       throw error.message
@@ -130,6 +139,8 @@ function handleError(error) {
 
 function checkReturnStatus(res) {
   let errors;
+  console.log('koa bff checkReturnStatus', res.status);
+  
   switch (res.status) {
     case 500:
       console.log("500错误");
@@ -146,9 +157,8 @@ function checkReturnStatus(res) {
       errors = `${res.status}, ${res.statusText}`
       return res.data
     case 401:
-      console.log("登录会话过期,请重新登录", 5)
-      throw res
-      return res.data
+      // console.log("登录会话过期,请重新登录", 5)
+      throw res.data
     case 403:
       console.log("无权限访问", 5)
       errors = `${res.status}, ${res.statusText}`

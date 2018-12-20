@@ -1,5 +1,7 @@
 const Koa = require('koa');
 const Router = require('koa-router');
+bodyParser = require('koa-bodyparser');
+
 const getClientEnvironment = require('./config/env')
 getClientEnvironment(process.env.NODE_ENV)
 
@@ -10,7 +12,10 @@ const routes = require('./routes');
 const app = new Koa();
 const router = new Router();
 
+app.use(middlewares.crossOrigin)
 app.use(middlewares.errorMiddleware);
+
+app.use(bodyParser());
 
 router.get('/', home)
 
