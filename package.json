@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "NODE_ENV=development node_modules/.bin/nodemon index.js",
-    "start": "pm2 start pm2.config.js --env development",
+    "start": "pm2 start pm2.config.js --env development --no-daemon",
     "pro": "pm2 start pm2.config.js --env production",
-    "staging": "pm2 start pm2.config.js --env staging"
+    "staging": "pm2 start pm2.config.js --env staging",
+    "build": "webpack --mode production"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -18,7 +19,10 @@
     "koa": "^2.6.2",
     "koa-bodyparser": "^2.5.0",
     "koa-router": "^7.4.0",
-    "pm2": "^3.2.3"
+    "pm2": "^3.2.3",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "webpack": "^4.28.1",
+    "webpack-cli": "^3.1.2"
   },
   "author": "",
   "license": "ISC",
