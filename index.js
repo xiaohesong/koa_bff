@@ -26,9 +26,9 @@ routes.forEach(item => {
 })
 
 function home(ctx){
-  const NODE_ENV = process.env.NODE_ENV
+  const {NODE_ENV, INFO} = process.env
   // console.log('Root path ctx is', ctx.body, 'params is', ctx.params, 'query is', ctx.query)
-  ctx.body = {a: 'aaa', name: 'home', text: '你好，我是首页', env: `env-${NODE_ENV}`}
+  ctx.body = {a: 'aaa', name: 'home', text: '你好，我是首页', env: `env-${NODE_ENV}-info-${INFO}`}
 }
 
 app.use(router.routes());
