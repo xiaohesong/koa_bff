@@ -2,8 +2,8 @@ const Koa = require('koa');
 const Router = require('koa-router');
 bodyParser = require('koa-bodyparser');
 
-// const getClientEnvironment = require('./config/env')
-// getClientEnvironment(process.env.NODE_ENV)
+const getClientEnvironment = require('./config/env')
+getClientEnvironment(process.env.NODE_ENV)
 
 const middlewares = require('./middlewares')
 const config = require('./config');

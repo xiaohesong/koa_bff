@@ -5,8 +5,6 @@ const paths = {
   dotenv: '.env'
 }
 
-const NAMESPACE = /^XHS_/i;
-
 function getEnvFile(env) {
   var dotenvFiles = [
     `${paths.dotenv}.${env}.local`,
@@ -30,7 +28,7 @@ function getEnvFile(env) {
 function getClientEnvironment(env) {
   getEnvFile(env)
   const raw = Object.keys(process.env)
-    .filter(key => NAMESPACE.test(key))
+    .filter(Boolean)
     .reduce(
       (env, key) => {
         env[key] = process.env[key];

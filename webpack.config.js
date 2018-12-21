@@ -1,7 +1,7 @@
 const path = require('path');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const fs = require('fs');
-const getClientEnvironment = require('./config/env.js')
+// const getClientEnvironment = require('./config/env.js')
 
 var nodeModules = {};
   fs.readdirSync('node_modules')
@@ -14,8 +14,6 @@ var nodeModules = {};
 
 
 module.exports = (_env, args) => {
-  const env = getClientEnvironment(args.mode);
-  const DefinePlugin = new webpack.DefinePlugin(env.stringified)
   return {
     entry: './index.js',
     target: 'node',
@@ -25,7 +23,6 @@ module.exports = (_env, args) => {
       // filename: 'static/js/[name].[contenthash:8].node.js'
       filename: 'index.node.js'
     },
-    externals: nodeModules,
-    plugins: [DefinePlugin]
+    externals: nodeModules
   }
 }
