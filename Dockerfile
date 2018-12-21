@@ -22,10 +22,12 @@ ADD package.json /tmp/package.json
 RUN cd /tmp && npm install
 RUN cp -a /tmp/node_modules $WORK_ROOT
 
-COPY example.env.${APP_ENV} .env.${APP_ENV}
+COPY example.env.${APP_ENV} .env.production
 
 # Bundle app source
 COPY . .
+
+RUN npm run build
 
 ENV SERVER_PORT 80
 

@@ -61,7 +61,7 @@ deploy pre_production to stage:
     - kubectl apply -f deploy/pre_prod/app/  
   only:
     - master
-    - skio
+    - webpack
   variables:
     CONTAINER_IMAGE: $IMAGE_BASE_NAME:staging-$CI_COMMIT_SHA
     PUBLIC_CONTAINER_IMAGE: $PUBLIC_IMAGE_BASE_NAME:staging-$CI_COMMIT_SHA
