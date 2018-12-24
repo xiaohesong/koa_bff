@@ -21,12 +21,17 @@ function handleError(error, ctx) {
     // console.log("Request Error", error.request, error.message);
     if (error.message === ERROR_502) {
       // console.log(`服务器异常${error.message}`, 5)
-      throw error.message
+      ctx.status = 502
+      ctx.body = `服务器异常${error.message}`
+      return
+      // throw error.message
     }
     throw error
   } else {
-    console.log('Error', error.message);
-    throw error
+    console.log('Error', error.message, error.status);
+    ctx.status = 510
+    ctx.body = `Not Response Error And Request Error, ${error.message}`
+    return // throw error
   }
 }
 
