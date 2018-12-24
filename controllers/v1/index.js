@@ -1,0 +1,1 @@
+exports.hunters = require('./hunters_controller')
