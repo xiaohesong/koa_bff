@@ -1,0 +1,1 @@
+exports.sts = require('./sts').sts
