@@ -50,14 +50,14 @@ const post = (path, params, token = '') => {
 }
 exports.post = post
 
-const put = (path, params) => {
+const put = (path, params, token) => {
   console.log('put form value is', params);
   return instance({
       method: 'put',
       url: `${API_URL}/${path}`,
       data: params,
       headers: {
-        "skio-token": localStorage.getItem("skioToken"),
+        "skio-token": token
       }
     })
     .then(response => response.data)
