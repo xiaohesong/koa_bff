@@ -36,9 +36,6 @@ const fs = require('fs')
 
 async function toExport(ctx) {
   const filename = encodeURIComponent(ctx.query.filename || '导出数据')
-  // ctx.set('Content-disposition', `attachment;filename=${filename}.xlsx`);
-  // ctx.attachment(`${filename}.xlsx`)
-  // ctx.set('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheets');
   const result = await exporter(`v1/contracts/export`, ctx.query, ctx.headers['skio-token'])
   ctx.body = result
 }
