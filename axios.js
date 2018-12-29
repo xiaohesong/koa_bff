@@ -39,7 +39,7 @@ const post = (path, params, token = '') => {
       url: `${API_URL}/${path}`,
       data: formData,
       headers: {
-        "skio-token": 'token',
+        "skio-token": token,
         'Content-Type': formData.getHeaders()['content-type']
       }
     })
@@ -85,26 +85,19 @@ const del = (path, params) => {
 exports.del = del
 
 // axios download file https://github.com/axios/axios/issues/448
-const exporter = (path, params = {}, fileName = '导出数据') => {
+const exporter = (path, params = {}, token) => {
   const searchParams = Object.keys(params).map(key => {
     return encodeURIComponent(key) + '=' + encodeURIComponent(params[key])
   }).join('&')
   return instance.get(`${API_URL}/${path}?${searchParams}`, {
-      responseType: 'blob',
+      responseType: 'stream',
       headers: {
-        'skio-token': localStorage.getItem("skioToken"),
+        'skio-token': token,
         'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       }
     })
     .then(response => response.data)
-    .then(blob => {
-      let url = window.URL.createObjectURL(blob);
-      let a = document.createElement('a');
-      a.href = url;
-      a.download = `${fileName}.xlsx`;
-      a.click();
-      Promise.resolve(blob);
-    })
+    .then(stream => stream)
     .catch(function (error) {
       handleError(error)
     });
