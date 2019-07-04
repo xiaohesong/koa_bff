@@ -16,7 +16,7 @@ const get = (path, params = {}, token) => {
   }).filter(item => item !== '').join('&')
   return instance.get(`${API_URL}/${path}?${searchParams}`, {
     headers: {
-      'skio-token': token
+      'user-token': token
     }
   })
     .then(response => response.data)
@@ -39,7 +39,7 @@ const post = (path, params, token = '') => {
       url: `${API_URL}/${path}`,
       data: formData,
       headers: {
-        "skio-token": token,
+        "user-token": token,
         'Content-Type': formData.getHeaders()['content-type']
       }
     })
@@ -57,7 +57,7 @@ const put = (path, params, token) => {
       url: `${API_URL}/${path}`,
       data: params,
       headers: {
-        "skio-token": token
+        "user-token": token
       }
     })
     .then(response => response.data)
@@ -74,7 +74,7 @@ const del = (path, params) => {
       url: `${API_URL}/${path}`,
       data: params,
       headers: {
-        "skio-token": localStorage.getItem("skioToken"),
+        "user-token": localStorage.getItem("userToken"),
       }
     })
     .then(response => response.data)
@@ -92,7 +92,7 @@ const exporter = (path, params = {}, token) => {
   return instance.get(`${API_URL}/${path}?${searchParams}`, {
       responseType: 'stream',
       headers: {
-        'skio-token': token,
+        'user-token': token,
         'Accept': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       }
     })

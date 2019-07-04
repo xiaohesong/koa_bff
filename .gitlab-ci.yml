@@ -88,7 +88,7 @@ deploy to production:
   stage: deploy_prod
   environment:
     name: prod
-    url: http://sarskoa.skio.cn
+    url: http://sarskoa.user.cn
   when: manual
   script:
     - echo 'deploy to prod'
@@ -102,8 +102,8 @@ deploy to production:
     - sed -i "s|__PROD_IMAGE__|${PROD_CONTAINER_IMAGE}|g" $(grep __PROD_IMAGE__ -rl  deploy/)
     #创建命名空间
     - kubectl apply -f deploy/prod/init/namespace.yaml
-    #从命名空间default中copy skio.cn 到当前的命名空间下用作https 的tls证书
-    - kubectl get secret skio.cn --namespace=default --export -o yaml | kubectl apply  -f -
+    #从命名空间default中copy user.cn 到当前的命名空间下用作https 的tls证书
+    - kubectl get secret user.cn --namespace=default --export -o yaml | kubectl apply  -f -
     #从命名空间default中copy docker-reg-secret 到当前的命名空间下用作拉取钧硕阿里云私有docker镜像仓库的凭证
     - kubectl get secret docker-reg-secret  --namespace=default --export -o yaml | kubectl apply  -f -  
     - kubectl apply -f deploy/prod/app/    
