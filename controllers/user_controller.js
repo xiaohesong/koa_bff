@@ -9,8 +9,8 @@ function userById(ctx) {
 }
 
 async function getUsers(ctx) {
-  console.log('ctx --', ctx.path, ctx.query, ctx.header['skio-token'])
-  // console.log("get('v1/users', ctx.query)", ) {"skio-tokener": ctx.header['skio-token']}
+  console.log('ctx --', ctx.path, ctx.query, ctx.header['user-token'])
+  // console.log("get('v1/users', ctx.query)", ) {"user-tokener": ctx.header['user-token']}
   const result = await get('v1/users', ctx.query )
   
   console.log('result is =', result, result.code === 401)

@@ -6,8 +6,8 @@ async function login(ctx) {
     return
   }
   
-  ctx.request.headers['skio-token'] = loginer.data.token
-  ctx.set('skio-token', loginer.data.token)
+  ctx.request.headers['user-token'] = loginer.data.token
+  ctx.set('user-token', loginer.data.token)
   const sysConfig = await get(`sysConfig`, undefined, loginer.data.token)
   
   if (sysConfig.code !== 200) {

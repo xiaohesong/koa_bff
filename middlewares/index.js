@@ -1,4 +1,4 @@
 exports.errorMiddleware = require('./ErrorMiddleware').errorMiddleware;
 exports.crossOrigin = require('./corsMiddleware').crossOrigin
-exports.skioHeader = require('./headerMiddleware').skioHeader
+exports.userHeader = require('./headerMiddleware').userHeader
 exports.logMiddleware = require('./logMiddleware').logMiddleware
