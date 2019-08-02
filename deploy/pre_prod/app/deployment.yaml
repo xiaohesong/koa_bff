@@ -52,7 +52,7 @@ metadata:
   name: __APPNAME__
 spec:
   rules:
-    - host: sarskoa.hizuche.cn
+    - host: ygzx.hizuche.cn
       http:
         paths:
           - backend:
@@ -61,5 +61,5 @@ spec:
             path: /
   tls:
     - hosts:
-        - sarskoa.hizuche.cn
+        - ygzx.hizuche.cn
       secretName: hizuche-tls-secret

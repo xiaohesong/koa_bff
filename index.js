@@ -19,6 +19,12 @@ app.use(middlewares.errorMiddleware);
 app.use(bodyParser());
 
 app.use(middlewares.logMiddleware)
+
+app.on('error', err => {
+  log.error('server error', err)
+});
+
+
 router.get('/', home)
 
 routes.forEach(item => {

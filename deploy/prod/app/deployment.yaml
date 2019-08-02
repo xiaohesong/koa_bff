@@ -52,7 +52,7 @@ metadata:
   name: __APPNAME__
 spec:
   rules:
-    - host: sars.skio.cn
+    - host: ygzx.skio.cn
       http:
         paths:
           - backend:
@@ -61,5 +61,5 @@ spec:
             path: /
   tls:
     - hosts:
-        - sars.skio.cn
+        - ygzx.skio.cn
       secretName: skio.cn

@@ -1,4 +1,4 @@
-本应用程序是基于Koa的node应用，用来做BFF。
+本应用程序是基于Koa的node应用，用来做运营司机从业资格证验证，营运车辆查询。
 
 - 环境依赖
   [node version > 7.6.0](https://github.com/koajs/koa#installation)
@@ -7,7 +7,7 @@
 
 ```shell
 git clone ...
-cd koa_bff
+cd yg
 npm i && npm run dev
 ```
 

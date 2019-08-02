@@ -1,9 +1,9 @@
 image: daocloud.io/library/node:8.12.0
 
 variables:
-  APPNAME: sars-koa
-  IMAGE_BASE_NAME: registry-vpc.cn-hangzhou.aliyuncs.com/junshuo/koa_bff
-  PUBLIC_IMAGE_BASE_NAME: registry.cn-hangzhou.aliyuncs.com/junshuo/koa_bff
+  APPNAME: ygzx-koa
+  IMAGE_BASE_NAME: registry-vpc.cn-hangzhou.aliyuncs.com/junshuo/ygzx_koa
+  PUBLIC_IMAGE_BASE_NAME: registry.cn-hangzhou.aliyuncs.com/junshuo/ygzx_koa
   PRIVATE_DOCKER_REGISTRY_URL: registry-vpc.cn-hangzhou.aliyuncs.com
   PROD_CONTAINER_IMAGE: $IMAGE_BASE_NAME:production-$CI_COMMIT_TAG
   DOCKER_HOST: tcp://localhost:2375
@@ -20,7 +20,7 @@ stages:
   stage: dockerize
   before_script:
     - docker login -u $ALI_DOCKER_USERNAME -p $ALI_DOCKER_PASSWORD $PRIVATE_DOCKER_REGISTRY_URL
-    - docker build --build-arg app_env=staging --build-arg PM2_PUBLIC_KEY=o2h1ok1qaxqrnx3 --build-arg PM2_SECRET_KEY=4auokv22l7i6d70 --pull -t $CONTAINER_IMAGE .
+    - docker build --build-arg app_env=staging --pull -t $CONTAINER_IMAGE .
     - docker push $CONTAINER_IMAGE
   allow_failure: false
 
@@ -40,7 +40,7 @@ deploy pre_production to stage:
   <<: *dockerize
   environment:
     name: stage
-    url: http://sarskoa.hizuche.cn
+    url: http://ygzx.hizuche.cn
   script:
     - echo 'Easy, cowboy~'
     - echo $HOME
@@ -88,7 +88,7 @@ deploy to production:
   stage: deploy_prod
   environment:
     name: prod
-    url: http://sarskoa.skio.cn
+    url: http://ygzx.skio.cn
   when: manual
   script:
     - echo 'deploy to prod'
