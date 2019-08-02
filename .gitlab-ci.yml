@@ -1,0 +1,113 @@
+image: daocloud.io/library/node:8.12.0
+
+variables:
+  APPNAME: sars-koa
+  IMAGE_BASE_NAME: registry-vpc.cn-hangzhou.aliyuncs.com/junshuo/koa_bff
+  PUBLIC_IMAGE_BASE_NAME: registry.cn-hangzhou.aliyuncs.com/junshuo/koa_bff
+  PRIVATE_DOCKER_REGISTRY_URL: registry-vpc.cn-hangzhou.aliyuncs.com
+  PROD_CONTAINER_IMAGE: $IMAGE_BASE_NAME:production-$CI_COMMIT_TAG
+  DOCKER_HOST: tcp://localhost:2375
+  DOCKER_DRIVER: overlay2
+
+stages:
+  - dockerize
+  - deploy_prod
+
+.dockerize: &dockerize
+  image: registry-vpc.cn-hangzhou.aliyuncs.com/junshuo/docker-kubectl:latest
+  services:
+    - docker:dind
+  stage: dockerize
+  before_script:
+    - docker login -u $ALI_DOCKER_USERNAME -p $ALI_DOCKER_PASSWORD $PRIVATE_DOCKER_REGISTRY_URL
+    - docker build --build-arg app_env=staging --build-arg PM2_PUBLIC_KEY=o2h1ok1qaxqrnx3 --build-arg PM2_SECRET_KEY=4auokv22l7i6d70 --pull -t $CONTAINER_IMAGE .
+    - docker push $CONTAINER_IMAGE
+  allow_failure: false
+
+.dockerize: &production
+  image: registry-vpc.cn-hangzhou.aliyuncs.com/junshuo/docker-kubectl:latest
+  services:
+    - docker:dind  
+  stage: dockerize
+  before_script:
+    - docker login -u $ALI_DOCKER_USERNAME -p $ALI_DOCKER_PASSWORD $PRIVATE_DOCKER_REGISTRY_URL
+    - docker build --build-arg app_env=production --pull -t $IMAGE_BASE_NAME:latest -t $PROD_CONTAINER_IMAGE .
+    - docker push $PROD_CONTAINER_IMAGE
+    - docker push $IMAGE_BASE_NAME:latest
+  allow_failure: false
+
+deploy pre_production to stage:
+  <<: *dockerize
+  environment:
+    name: stage
+    url: http://sarskoa.hizuche.cn
+  script:
+    - echo 'Easy, cowboy~'
+    - echo $HOME
+    - mkdir -p $HOME/.kube
+    - echo -n $PRE_PROD_KUBE_CONFIG | base64 -d > $HOME/.kube/config
+    - kubectl config set-context $(kubectl config current-context) --namespace=$APPNAME
+    - kubectl config view
+    - kubectl get namespaces
+    - kubectl version
+    - sed -i "s/__APPNAME__/${APPNAME}/g" $(grep __APPNAME__  -rl  deploy/)
+    - sed -i "s|__PRE_PROD_IMAGE__|${PUBLIC_CONTAINER_IMAGE}|g" $(grep __PRE_PROD_IMAGE__ -rl  deploy/)
+    #创建命名空间
+    - kubectl apply -f deploy/pre_prod/init/namespace.yaml
+    #从命名空间default中copy hizuche-tls-secret 到当前的命名空间下用作https 的tls证书
+    - kubectl get secret hizuche-tls-secret --namespace=default --export -o yaml | kubectl apply  -f -
+    #从命名空间default中copy docker-reg-secret 到当前的命名空间下用作拉取钧硕阿里云私有docker镜像仓库的凭证
+    - kubectl get secret docker-reg-secret  --namespace=default --export -o yaml | kubectl apply  -f -
+    - kubectl apply -f deploy/pre_prod/app/  
+  only:
+    - master
+    - webpack
+  variables:
+    CONTAINER_IMAGE: $IMAGE_BASE_NAME:staging-$CI_COMMIT_SHA
+    PUBLIC_CONTAINER_IMAGE: $PUBLIC_IMAGE_BASE_NAME:staging-$CI_COMMIT_SHA
+
+
+build production docker image:
+  <<: *production
+  script:
+    - echo 'Easy, cowboy~'
+    - echo $CI_COMMIT_TAG
+    - echo $CI_COMMIT_REF_NAME
+  only:
+    - tags
+  except:
+    - branches
+  variables:
+    CONTAINER_IMAGE: $IMAGE_BASE_NAME:preproduction-$CI_COMMIT_SHA
+    PUBLIC_CONTAINER_IMAGE: $PUBLIC_IMAGE_BASE_NAME:preproduction-$CI_COMMIT_SHA
+
+deploy to production:
+  image: registry-vpc.cn-hangzhou.aliyuncs.com/junshuo/docker-kubectl:latest
+  services:
+    - docker:dind  
+  stage: deploy_prod
+  environment:
+    name: prod
+    url: http://sarskoa.skio.cn
+  when: manual
+  script:
+    - echo 'deploy to prod'
+    - mkdir -p $HOME/.kube
+    - echo -n $PROD_KUBE_CONFIG | base64 -d > $HOME/.kube/config
+    - kubectl config set-context $(kubectl config current-context) --namespace=$APPNAME
+    - kubectl config view
+    - kubectl get namespaces
+    - kubectl version
+    - sed -i "s/__APPNAME__/${APPNAME}/g" $(grep __APPNAME__  -rl  deploy/)
+    - sed -i "s|__PROD_IMAGE__|${PROD_CONTAINER_IMAGE}|g" $(grep __PROD_IMAGE__ -rl  deploy/)
+    #创建命名空间
+    - kubectl apply -f deploy/prod/init/namespace.yaml
+    #从命名空间default中copy skio.cn 到当前的命名空间下用作https 的tls证书
+    - kubectl get secret skio.cn --namespace=default --export -o yaml | kubectl apply  -f -
+    #从命名空间default中copy docker-reg-secret 到当前的命名空间下用作拉取钧硕阿里云私有docker镜像仓库的凭证
+    - kubectl get secret docker-reg-secret  --namespace=default --export -o yaml | kubectl apply  -f -  
+    - kubectl apply -f deploy/prod/app/    
+  only:
+    - tags
+  except:
+    - branches
