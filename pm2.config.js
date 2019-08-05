@@ -7,17 +7,17 @@ module.exports = {
     env: {
       NODE_ENV: "development",
       PORT: 8080,
-      name: 'koa_bff_development'
+      name: 'yunying_development'
     },
     env_staging: {
       NODE_ENV: "staging",
       PORT: 80,
-      name: 'koa_bff_staging'
+      name: 'yunying_staging'
     },
     env_production: {
       NODE_ENV: "production",
       PORT: 80,
-      name: 'koa_bff_production'
+      name: 'yunying_production'
     }
   }]
 }

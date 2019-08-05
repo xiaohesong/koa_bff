@@ -1,5 +1,5 @@
-const {user, session, v1, aliyun, users} = require('../controllers')
-console.log('aliyun is', aliyun);
+const {user, session, v1, aliyun, users, v2} = require('../controllers')
+console.log('aliyun is', aliyun, v2);
 
 exports = module.exports = [
   {method: 'get', path: '/aliyun/sts', cb: aliyun.sts},
@@ -12,4 +12,6 @@ exports = module.exports = [
   {method: 'get', path: '/hunters/:id', cb: v1.hunters.show},
   {method: 'put', path: '/hunters/:id', cb: v1.hunters.put},
   {method: 'get', path: '/v1/contracts/export', cb: v1.hunters.export},
+
+  {method: 'post', path: '/car_info', cb: v2.main.cars.car_info},
 ]; 

@@ -1,7 +1,8 @@
 const Koa = require('koa');
 const Router = require('koa-router');
-bodyParser = require('koa-bodyparser');
-
+const bodyParser = require('koa-bodyparser');
+const koaBody = require('koa-body');
+const cars = require('./controllers/v2/main/car_info')
 const getClientEnvironment = require('./config/env')
 getClientEnvironment(process.env.NODE_ENV)
 
@@ -16,20 +17,43 @@ const router = new Router();
 app.use(middlewares.crossOrigin)
 app.use(middlewares.errorMiddleware);
 
+
+
+// app.use(views(path.join(__dirname, './view'), {
+//   extension: 'ejs'
+// }))
+
+// app.use( async ( ctx ) => {
+//   let title = 'hello koa2'
+//   await ctx.render('index', {
+//     title,
+//   })
+// })
+
 app.use(bodyParser());
+
+app.use(koaBody({
+  multipart: true,
+  formidable: {
+      maxFileSize: 200*1024*1024	// 设置上传文件大小最大限制，默认2M
+  }
+}));
 
 app.use(middlewares.logMiddleware)
 
 app.on('error', err => {
-  log.error('server error', err)
+  console.error('server error', err)
 });
 
 
 router.get('/', home)
 
+// router.post('/car_info', koaBody(), cars.index)
+
 routes.forEach(item => {
   router[item.method](item.path, item.cb)
 })
+
 
 function home(ctx){
   const {NODE_ENV, INFO} = process.env
