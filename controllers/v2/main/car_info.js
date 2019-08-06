@@ -26,11 +26,11 @@ async function searchFile(uid, ...args){
 }
 
 async function startCrawler(uid) {
-  crawler = init()
+  crawler = init(uid)
   await processFile(uid)
   const {type} = (await searchFile(uid, 'type', 'id')).shift()
   const filePath = path.resolve(__dirname, `../../../files/${type}/${uid}.xlsx`)
-  // console.log('这里得type是', searched);
+  console.log('这里得filePath是', filePath);
   await crawler(type, filePath)
 }
 

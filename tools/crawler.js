@@ -1,16 +1,21 @@
 const axios = require('axios');
 const {readExcel} = require('./excel');
 
-function init(cookie = 'acw_tc=781bad2215647164759254537e53922c9bb4a017ddf233e12458f634c12ee8'){
+function init(uid, cookie = 'acw_tc=781bad2215647164759254537e53922c9bb4a017ddf233e12458f634c12ee8'){
+	console.log('init uid is', uid)
 	function query(path){
 		const PATH='https://zjyz.zjt.gov.cn';
-		return axios.get(`${PATH}${encodeURI(path)}`, {
-			headers: {
-				'User-Agent': 'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3871.0 Safari/537.36',
-				Cookie: cookie,
-				Host: 'zjyz.zjt.gov.cn'
-			}
-		}).then(d => d.data)
+		try{
+			return axios.get(`${PATH}${encodeURI(path)}`, {
+				headers: {
+					'User-Agent': 'User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3871.0 Safari/537.36',
+					Cookie: cookie,
+					Host: 'zjyz.zjt.gov.cn'
+				}
+			}).then(d => d.data)
+		}catch(e){
+
+		}
 	}
 
 	function crawler(type, filePath){
@@ -22,7 +27,7 @@ function init(cookie = 'acw_tc=781bad2215647164759254537e53922c9bb4a017ddf233e12
 			const datas = readExcel(filePath)
 			
 			for(let item of datas){
-				await sleep(1500);
+				await sleep(2500);
 				const querier= (function(item) {
 					switch(type){
 						case 'cars':
