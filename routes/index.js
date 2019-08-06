@@ -1,5 +1,5 @@
 const {user, session, v1, aliyun, users, v2} = require('../controllers')
-console.log('aliyun is', aliyun, v2);
+// console.log('aliyun is', aliyun, v2);
 
 exports = module.exports = [
   {method: 'get', path: '/aliyun/sts', cb: aliyun.sts},

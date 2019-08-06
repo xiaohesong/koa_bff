@@ -1,33 +1,58 @@
 const uuidv1 = require('uuid/v1');
 const path = require('path');
 var fs = require('fs');
+const { query } = require('../../../mysql/mysql')
+const { init } = require('../../../tools/crawler')
 const needTypes = ['cars', 'drivers'];
 
+let crawler;
 
-const { query } = require('../../../mysql/mysql')
-async function selectAllData( ) {
-  let sql = 'SELECT * FROM user'
-  let dataList = await query( sql )
-  return dataList
+async function insertFile({file, type, uid}) {
+  let sql = `INSERT INTO files set origin_name='${file.name}', name='${uid}.xlsx', type='${type}';`
+  let result = await query( sql )
+  return result
 }
 
-async function getData() {
-  let dataList = await selectAllData()
-  console.log( "dataList", dataList )
+async function processFile(uid) {
+  let sql = `update files set status='processing' where name='${uid}.xlsx';`
+  let result = await query( sql )
+  return result
+}
+
+async function searchFile(uid, ...args){
+  let sql = `select ${args.join(',')} from files where name='${uid}.xlsx';`
+  let result = await query( sql )
+  return result
+}
+
+async function startCrawler(uid) {
+  crawler = init()
+  await processFile(uid)
+  const {type} = (await searchFile(uid, 'type', 'id')).shift()
+  const filePath = path.resolve(__dirname, `../../../files/${type}/${uid}.xlsx`)
+  // console.log('这里得type是', searched);
+  await crawler(type, filePath)
 }
 
 async function index(ctx) {
   const uid = uuidv1()
   const file = ctx.request.files.file
   const type = ctx.request.body.type
+  const fileName = file.name
+  insertFile({uid, file, type})
 
-  getData()
 
   if(!needTypes.includes(type)){
     throw new Error('Unvalid type')
   }
   saveFile({file, type, uid})
-  
+
+  setTimeout(startCrawler, 6000, uid)
+
+  ctx.body = {
+    message: `已接收到${fileName}, 即将处理, ${uid}`,
+    status: true
+  }
 }
 
 function saveFile({file, type, uid}) {

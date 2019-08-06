@@ -30,7 +30,6 @@ async function update(ctx) {
 exports.put = update
 
 var contentDisposition = require('content-disposition')
-console.log('content is', contentDisposition)
 
 const fs = require('fs')
 
