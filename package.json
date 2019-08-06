@@ -9,7 +9,8 @@
     "start": "pm2 start pm2.config.js --env development --no-daemon",
     "pro": "pm2 start pm2.config.js --env production",
     "staging": "pm2 start pm2.config.js --env staging",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "init": "node mysql/init.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -21,6 +22,7 @@
     "koa-bodyparser": "^2.5.0",
     "koa-router": "^7.4.0",
     "koa-send": "^5.0.0",
+    "mysql": "^2.17.1",
     "pm2": "^3.2.3",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "webpack": "^4.28.1",

@@ -1,17 +1,28 @@
 const uuidv1 = require('uuid/v1');
 const path = require('path');
 var fs = require('fs');
-var os = require('os');
 const needTypes = ['cars', 'drivers'];
 
-function buildFolder(url) {
-  return path.resolve(__dirname, `${url}`)
+
+const { query } = require('../../../mysql/mysql')
+async function selectAllData( ) {
+  let sql = 'SELECT * FROM user'
+  let dataList = await query( sql )
+  return dataList
+}
+
+async function getData() {
+  let dataList = await selectAllData()
+  console.log( "dataList", dataList )
 }
 
 async function index(ctx) {
   const uid = uuidv1()
   const file = ctx.request.files.file
   const type = ctx.request.body.type
+
+  getData()
+
   if(!needTypes.includes(type)){
     throw new Error('Unvalid type')
   }
@@ -36,6 +47,11 @@ function saveFile({file, type, uid}) {
   const stream = fs.createWriteStream(path.resolve(__dirname, `${basicPath}${type}/${uid}.${ext}`));
   reader.pipe(stream);
 }
+
+function buildFolder(url) {
+  return path.resolve(__dirname, `${url}`)
+}
+
 exports.car_info = index
 
 

@@ -7,7 +7,9 @@ module.exports = {
     env: {
       NODE_ENV: "development",
       PORT: 8080,
-      name: 'yunying_development'
+      name: 'yunying_development',
+      sqlUser: 'root',
+      sqlPassword: '123456'
     },
     env_staging: {
       NODE_ENV: "staging",
