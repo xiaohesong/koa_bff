@@ -1,27 +1,23 @@
-const XLSX = require('xlsx');
-var formidable = require('formidable');
-// const {get} = require('../../axios')
+const uuidv1 = require('uuid/v1');
+const path = require('path');
+var fs = require('fs');
+var os = require('os');
+const needTypes = ['cars', 'drivers'];
 
 async function index(ctx) {
-
+  const uid = uuidv1()
   const file = ctx.request.files.file
-  console.log("ctx params is", file.name, file.path, "++")
-  // const workbox = XLSX.read("example.xlsx", {path: "../../../files/cars/"})
-  const workbox = XLSX.read(file.name, {path: file.path})
-
-  var result = {};
-	workbox.SheetNames.forEach(function(sheetName) {
-		var worksheet = workbox.Sheets[sheetName];
-		result[sheetName] = XLSX.utils.sheet_to_json(worksheet);
-	});	
-  console.log("打印表信息",JSON.stringify(result, 2, 2));  //显示格式{"表1":[],"表2":[]}
-
-  const sheetName = workbox.SheetNames.shift()
-  const {A1, A2} = workbox.Sheets[sheetName]
-  const aiyou = XLSX.utils.sheet_to_json(workbox.Sheets[sheetName])
-  console.log('aiyou is', aiyou, "workbox.Sheets[sheetName]", workbox.Sheets[sheetName])
-  // console.log('xlsx is', workbox, 'A1 is', JSON.stringify(A2))
-  let title = '营运车辆管理'
-  ctx.body = {result: title, A1, A2}
+  const type = ctx.request.body.type
+  if(!needTypes.includes(type)){
+    throw new Error('Unvalid type')
+  }
+  const ext = file.name.split('.').pop()
+  const reader = fs.createReadStream(file.path);
+  const stream = fs.createWriteStream(path.resolve(__dirname, `../../../files/${type}/${uid}.${ext}`));
+  reader.pipe(stream);
+  
 }
 exports.car_info = index
+
+
+
