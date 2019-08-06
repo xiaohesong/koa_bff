@@ -11,9 +11,15 @@ async function index(ctx) {
   if(!needTypes.includes(type)){
     throw new Error('Unvalid type')
   }
+  const basicPath = `../../../files/${type}`
+  const dir = path.resolve(__dirname, `${basicPath}`)
+  if (!fs.existsSync(dir)){
+    fs.mkdirSync(dir);
+  }
   const ext = file.name.split('.').pop()
+  
   const reader = fs.createReadStream(file.path);
-  const stream = fs.createWriteStream(path.resolve(__dirname, `../../../files/${type}/${uid}.${ext}`));
+  const stream = fs.createWriteStream(path.resolve(__dirname, `${basicPath}/${uid}.${ext}`));
   reader.pipe(stream);
   
 }
